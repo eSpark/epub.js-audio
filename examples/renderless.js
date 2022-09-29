@@ -51,7 +51,9 @@ book.loaded.navigation.then(function (toc) {
         var ebookContainer = document.createElement("div");
         ebookContainer.innerHTML = html;
         var audioContainer = document.createElement("div");
-        audioContainer.innerHTML = addAudio(section);
+        addAudio(section);
+        //audioContainer.appendChild(addAudio(section));
+        //audioContainer.innerHTML = addAudio(section);
         $viewer.appendChild(ebookContainer);
         $viewer.appendChild(audioContainer);
       });
@@ -63,9 +65,10 @@ book.loaded.navigation.then(function (toc) {
   }
 
   function addAudio(section) {
-    request(section.overlay.url).then(function (overlayXml) {
-      overlayDom = DOMParser.parseFromString(overlayXml, "application/xml");
-    });
+    var parser = new DOMParser();
+    var overlayDom = parser.parseFromString(section.mediaOverlay, "application/xml");
+    var audioTags = overlayDom.getElementsByTagName("audio");
+    return overlayDom;
   }
 
 

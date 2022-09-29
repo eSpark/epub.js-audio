@@ -60,17 +60,10 @@ class Section {
 				loading.resolve(this.contents);
 			} else {
 				request(this.overlay.url).then(function (overlayXml) {
-					var div = document.createElement("div");
-					div.classList.add("audioContainer");
-					//overlay is returning as a string?  possibly because xml instead of xhtml
-					var start = overlayXml.search("<smil");
-					var xmlStr = overlayXml.substring(start);
-					div.insertAdjacentHTML('beforeend', xmlStr);
-					this.mediaOverlay = div;
+					this.mediaOverlay = overlayXml;
 					return request(this.url).then(function (xml) {
 						this.document = xml;
 						this.contents = xml.documentElement;
-						this.contents.appendChild(div);
 						return this.hooks.content.trigger(this.document, this);
 
 					}.bind(this)).then(function () {
