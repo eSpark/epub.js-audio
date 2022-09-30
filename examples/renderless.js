@@ -41,46 +41,20 @@ book.loaded.navigation.then(function (toc) {
     if (displayed) currentSectionIndex--;
   }, false);
 
+
   function display(item) {
     var section = book.spine.get(item);
     //section.hooks.content.register(addAudio);
     if (section) {
       currentSection = section;
+      renderTo
       section.render().then(function (html) {
-        // $viewer.srcdoc = html;
         var ebookContainer = document.createElement("div");
         ebookContainer.innerHTML = html;
-        var audioContainer = document.createElement("div");
-        addAudio(section);
-        //audioContainer.appendChild(addAudio(section));
-        //audioContainer.innerHTML = addAudio(section);
         $viewer.appendChild(ebookContainer);
-        $viewer.appendChild(audioContainer);
       });
     }
     return section;
   }
-  function replaceAudioURL(xmlStr) {
-    return xmlStr.replace(/\.\.\/audio/g, "audio");
-  }
-
-  function addAudio(section) {
-    var parser = new DOMParser();
-    var overlayDom = parser.parseFromString(section.mediaOverlay, "application/xml");
-    var audioTags = overlayDom.getElementsByTagName("audio");
-    return overlayDom;
-  }
-
-
-  /*var audioContainer;
-  function addAudio(document, section) {
-    
-    audioContainer = document.createElement("div");
-    audioContainer.classList.add("audioContainer");
-    var xmlStr = overlayXml.substring(overlayXml.search("<smil"));
-    xmlStr = replaceAudioURL(xmlStr);
-    audioContainer.insertAdjacentHTML('beforeend', xmlStr);
-    //contents.documentElement.appendChild(audioContainer);
-  }*/
-
 });
+
