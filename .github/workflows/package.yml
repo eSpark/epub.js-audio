@@ -18,8 +18,10 @@ jobs:
           node-version: '16.x'
           cache: 'npm'
           registry-url: 'https://npm.pkg.github.com'
+          scope: '@eSpark'
       - run: npm ci
       - run: npm run prepare
+      - run: cat .npmrc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
